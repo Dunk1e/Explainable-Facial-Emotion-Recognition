@@ -43,3 +43,4 @@ pip install grad-cam opencv-python matplotlib tqdm scikit-learn -->
 ```bash
 conda create -n FER-env python=3.10
 conda activate FER-env
+pip install opencv-python
