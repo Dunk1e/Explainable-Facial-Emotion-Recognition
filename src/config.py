@@ -9,6 +9,8 @@ class Config:
     val_dir: Path = project_root / "validation"
     test_dir: Path = project_root / "test"
 
+    emotions = ['angry','disgust','fear','happy','sad','surprise']
+
     batch_size: int = 64
     num_workers: int = 2
     lr: float = 3e-4
