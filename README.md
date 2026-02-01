@@ -19,10 +19,15 @@ The `neutral` and `contempt` classes from FER+ have been excluded.
 
 ---
 
-## Download FER+ from Kaggle
+## Dataset
+We use the FER2013 dataset from Kaggle:
+https://www.kaggle.com/datasets/msambare/fer2013
 
-The FER+ dataset is hosted on Kaggle and must be downloaded manually.
-https://www.kaggle.com/datasets/arnabkumarroy02/ferplus
+After download, we apply:
+- train/val split (90/10)
+- exact-duplicate removal using MD5 hashing
+
+See `scripts/split_val.py` and `scripts/delete_md5_copies.py`.
 
 ---
 
@@ -43,4 +48,5 @@ pip install grad-cam opencv-python matplotlib tqdm scikit-learn -->
 ```bash
 conda create -n FER-env python=3.10
 conda activate FER-env
-pip install opencv-python torch torchvision grad-cam pillow numpy 
+pip install opencv-python torch torchvision grad-cam pillow numpy matplotlib pandas 
+(scipy)

@@ -1,6 +1,11 @@
 test/
 train/
 validation/
+val/
+reports/
+fer2013/
+old_dataset/
+fer2013_clean/
 
 *.pt
 

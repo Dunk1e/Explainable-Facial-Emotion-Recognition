@@ -5,9 +5,9 @@ from pathlib import Path
 class Config:
     project_root: Path = Path(__file__).resolve().parents[1]
 
-    train_dir: Path = project_root / "train"
-    val_dir: Path = project_root / "validation"
-    test_dir: Path = project_root / "test"
+    train_dir: Path = project_root / "fer2013_clean/train"
+    val_dir: Path = project_root / "fer2013_clean/val"
+    test_dir: Path = project_root / "fer2013_clean/test"
 
     emotions = ['angry','disgust','fear','happy','sad','surprise']
 
