@@ -9,11 +9,12 @@ from src.config import Config
 from src.load_data import make_transformers, filter_emotions
 from src.model import EmotionCNN
 from src.train import train_one_epoch, evaluate
-from src.utils import get_device
+from src.utils import get_device, set_seed
 
 
 def main():
     cfg = Config()
+    set_seed(getattr(cfg,"seed", 42))
     device = get_device()
 
     train_tf, test_tf = make_transformers()
@@ -53,11 +54,20 @@ def main():
 
     model = EmotionCNN(num_classes=len(class_names)).to(device)
 
-    criterion = nn.CrossEntropyLoss()
+    targets = torch.tensor(train_ds.targets)
+    num_classes = len(train_ds.classes)
+    counts = torch.bincount(targets, minlength=num_classes).float()
+    weights = 1.0 / torch.sqrt(counts + 1e-6)
+    weights = weights / weights.sum() * num_classes 
+
+    criterion = nn.CrossEntropyLoss(weight=weights.to(device))
     optimizer = optim.AdamW(
         model.parameters(),
         lr=cfg.lr,
         weight_decay=1e-4
+    )
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, mode="max", factor=0.5, patience=3
     )
 
     best_val_acc = 0.0
@@ -71,10 +81,14 @@ def main():
             model, val_loader, criterion, device
         )
 
+        scheduler.step(val_acc)
+        current_lr = optimizer.param_groups[0]["lr"]
+
         print(
             f"Epoch [{epoch+1:02d}/{cfg.epochs}] | "
             f"Train: loss={train_loss:.4f}, acc={train_acc:.3f} | "
-            f"Val: loss={val_loss:.4f}, acc={val_acc:.3f}"
+            f"Val: loss={val_loss:.4f}, acc={val_acc:.3f} | "
+            f"Current LR: {current_lr:.6f}"
         )
 
         # save best model

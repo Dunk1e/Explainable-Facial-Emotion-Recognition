@@ -13,7 +13,7 @@ set -euo pipefail
 source ~/miniconda3/etc/profile.d/conda.sh
 conda activate FER-env
 
-cd /home/v/vahutinskij/work/fer_project
+cd /home/v/vahutinskij/work/fer_new/Explainable-Facial-Emotion-Recognition
 
 
 which python

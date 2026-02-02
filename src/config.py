@@ -15,3 +15,4 @@ class Config:
     num_workers: int = 2
     lr: float = 3e-4
     epochs: int = 30
+    seed: int = 42
