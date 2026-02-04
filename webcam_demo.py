@@ -16,7 +16,7 @@ def main():
     device = get_device()
 
     model = EmotionCNN(num_classes=6).to(device)
-    model.load_state_dict(torch.load("best_model.pt", map_location=device))#load model
+    model.load_state_dict(torch.load("ferplus_model.pth", map_location=device))#load model
     model.eval()
 
     _, test_tf = make_transformers()
